@@ -5,4 +5,7 @@
 int main(){
 	
 	printf("Primeiro commit");
+	
+	
+	return 0;
 }
