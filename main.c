@@ -21,6 +21,25 @@ Sempre que o usuário escolher uma opção deve ter a possibilidade de voltar pa
 #include <stdio.h>
 #include <locale.h>
 
+void sobre_nos()
+{
+
+	printf(" /$$      /$$                     /$$                       /$$                                         ',            \n| $$$    /$$$                    | $$                      |__/                                      .-`-,\\__            \n| $$$$  /$$$$  /$$$$$$  /$$$$$$$ | $$   /$$ /$$   /$$       /$$ /$$$$$$$   /$$$$$$$                    .\"`   `,            \n| $$ $$/$$ $$ /$$__  $$| $$__  $$| $$  /$$/| $$  | $$      | $$| $$__  $$ /$$_____/                  .'_.  ._  `;.        \n| $$  $$$| $$| $$  \\ $$| $$  \\ $$| $$$$$$/ | $$  | $$      | $$| $$  \\ $$| $$                    __ / `      `  `.\\ .--.    \n| $$\\  $ | $$| $$  | $$| $$  | $$| $$_  $$ | $$  | $$      | $$| $$  | $$| $$                   /--,| 0)   0)     )`_.-,)    \n| $$ \\/  | $$|  $$$$$$/| $$  | $$| $$ \\  $$|  $$$$$$$      | $$| $$  | $$|  $$$$$$$            |    ;.-----.__ _-');   /    \n|__/     |__/ \\______/ |__/  |__/|__/  \\__/ \\____  $$      |__/|__/  |__/ \\_______/             '--./         `.`/  `\"`        \n                                            /$$  | $$                                              :   '`      |.              \n                                           |  $$$$$$/                                              | \\     /  //             \n                                            \\______/                                                \\ '---'  /'           \n                                                                                                     `------'              \n");
+	printf("\n");
+	printf("Sistema desenvolvido por :\n");
+	printf("\n");
+	printf("João Vitor Santa Brigida Dantas     Matrícula: 2020016360\n");
+	printf("\n");
+	printf("Marcos Quadros Andrade              Matrícula: 2020015882\n");
+	printf("\n");
+	printf("Mateus dos Santos Ribeiro           Matrícula: 2020016389\n");
+	printf("\n");
+	printf("Thiago Tavares Gonzalez             Matrícula: 2020016146\n");
+	printf("\n");
+
+	
+}
+
 void menu()
 {
 
@@ -55,11 +74,14 @@ void menu()
 		//função alterar
 		break;
 	case 5:
-		//função sair
+		sobre_nos();
+		//função sobre_nós
 		break;
 
 	case 6:
-		//função sobre_nos
+		//função sair
+
+		
 		break;
 
 	default:
@@ -67,8 +89,13 @@ void menu()
 	}
 }
 
+
+
 int main()
-{
+{ 
+	setlocale(LC_ALL, "Portuguese");
+
 	menu();
+
 	return 0;
 }
