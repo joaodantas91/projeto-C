@@ -23,9 +23,10 @@ Sempre que o usuário escolher uma opção deve ter a possibilidade de voltar pa
 #include <stdlib.h>
 #include <locale.h>
 
-void voltarMenu(); 
-void sobre_nos();
+void menu();
+void voltarMenu();
 void sair();
+void sobre_nos();
 
 
 
@@ -112,7 +113,7 @@ void sair()
 {
 	system("cls");
 	printf("Sistema encerrado.");
-	return exit(0);
+	exit(0);
 }
 
 //função sobre nós 
