@@ -59,9 +59,9 @@ void cabecalho()
 //função cadastrar: cadastra e grava em um arquivo as informações do funcionário(matrícula, nome, email, data de admissao e salário)
 void cadastro()
 {
-	FILE *arquivo;
+	FILE *arquivo,*ler;
 	EMPLOYEE emp;
-
+	int mat;
 	arquivo = fopen("arquivo.txt", "ab");
 
 	if (arquivo == NULL)
@@ -78,8 +78,23 @@ void cadastro()
 
 			fflush(stdin);
 			printf("Digite a matricula: ");
-			scanf("%d", &emp.mat);
+			scanf("%d", &mat);
 
+			ler = fopen("arquivo.txt", "r");
+			while (fread(&emp, sizeof(EMPLOYEE), 1, ler) == 1){
+				if (mat == emp.mat){
+					printf("\nFuncionario ja cadastrado\n");
+					fclose(ler);
+					printf("\n");
+					printf("Digite uma tecla para voltar ao menu:");
+					getch();
+					system("cls");
+					menu();
+
+				}
+			}
+			fclose(ler);
+			emp.mat = mat;
 			fflush(stdin);
 			printf("Digite o nome: ");
 			gets(emp.nome);
@@ -125,7 +140,7 @@ void listar()
 	{
 		while (fread(&emp, sizeof(EMPLOYEE), 1, arquivo) == 1)
 		{
-			printf("Numero Matricula:%d \n", emp.mat);
+			printf("Matricula:%d \n", emp.mat);
 			printf("Nome:%s \n", emp.nome);
 			printf("Email:%s \n", emp.email);
 			printf("Data de admissao:%s \n", emp.dataAdmisao);
@@ -173,8 +188,10 @@ void excluir()
 	fclose(arquivo);
 	remove("arquivo.txt");
 	rename("temp.txt", "arquivo.txt");
+	printf("\n");
 	printf("Digite uma tecla para voltar ao menu:");
 	getche();
+	system("cls");
 	menu();
 }
 
@@ -197,12 +214,20 @@ void alterar()
 	{
 		printf("Digite o numero de matricula que deseja Alterar: ");
 		scanf("%d", &mat);
+		printf("\n");
 
 		while (fread(&emp, sizeof(EMPLOYEE), 1, arquivo) == 1)
 		{
 			
 			if (mat == emp.mat)
 			{
+
+			printf("Matricula:%d \n", emp.mat);
+			printf("Nome:%s \n", emp.nome);
+			printf("Email:%s \n", emp.email);
+			printf("Data de admissao:%s \n", emp.dataAdmisao);
+			printf("Salario:%.2f \n", emp.salario);
+			printf("-------------------------------\n\n");
 
 				fflush(stdin);
 				printf("Digite o nome: ");
