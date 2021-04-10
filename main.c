@@ -24,56 +24,62 @@ Sempre que o usuário escolher uma opção deve ter a possibilidade de voltar pa
 #include <locale.h>
 #include <conio.h>
 
-
+//struct funcionario: define a estrutura com as informações do funcionário.
 typedef struct emp EMPLOYEE;
 
 struct emp
 {
-int mat;
-char nome [30];
-char email [50];
-char dataAdmisao [10];
-float salario;
+	int mat;
+	char nome[30];
+	char email[50];
+	char dataAdmisao[10];
+	float salario;
 };
 
-void alterar();
-void excluir();
-void listar();
-void cabecalho();
-void cadastro();
+//declaração de funções
 void menu();
-void voltarMenu();
-void sair();
+void cadastro();
+void listar();
+void excluir();
+void alterar();
 void sobre_nos();
+void sair();
+void cabecalho();
+void voltarMenu();
 
-void cabecalho(){
+//função cabeçalho:limpa o console e exibe um cabeçalho com o nome do sistema.
+void cabecalho()
+{
 	system("cls");
 	printf("-------------------------------\n");
 	printf("PROGRAMA RECURSOS HUMANOS");
 	printf("\n-------------------------------\n\n");
-
 }
 
-void cadastro(){
-	FILE* arquivo;
+//função cadastrar: cadastra e grava em um arquivo as informações do funcionário(matrícula, nome, email, data de admissao e salário)
+void cadastro()
+{
+	FILE *arquivo;
 	EMPLOYEE emp;
 
-	
 	arquivo = fopen("arquivo.txt", "ab");
-	
-	if (arquivo == NULL){
+
+	if (arquivo == NULL)
+	{
 		printf("Problemas na abertura do arquivo\n");
 	}
-	else {
-		
-		do {
-			
+	else
+	{
+
+		do
+		{
+
 			cabecalho();
 
 			fflush(stdin);
 			printf("Digite a matricula: ");
-			scanf("%d",&emp.mat);
-			
+			scanf("%d", &emp.mat);
+
 			fflush(stdin);
 			printf("Digite o nome: ");
 			gets(emp.nome);
@@ -88,13 +94,13 @@ void cadastro(){
 
 			fflush(stdin);
 			printf("Digite o Salario: ");
-			scanf("%f",&emp.salario);
+			scanf("%f", &emp.salario);
 
 			fwrite(&emp, sizeof(EMPLOYEE), 1, arquivo);
 			printf("\n ");
 			printf("Deseja continuar(s/n) ?");
-			
-		}while (getche() == 's');
+
+		} while (getche() == 's');
 
 		fclose(arquivo);
 		system("cls");
@@ -102,27 +108,30 @@ void cadastro(){
 	}
 }
 
-void listar(){
-	FILE* arquivo;
+//função listar: lê o arquivo de cadastro e exibe todos os funcionário cadastrados na tela.
+void listar()
+{
+	FILE *arquivo;
 	EMPLOYEE emp;
 
 	arquivo = fopen("arquivo.txt", "rb");
 	cabecalho();
-	if (arquivo == NULL){
+	if (arquivo == NULL)
+	{
 		printf("Problemas na abertura do arquivo\n");
 	}
 
-	else {
-		while (fread(&emp, sizeof(EMPLOYEE),1, arquivo) == 1){
-			printf("Numero Matricula:%d \n",emp.mat);
-			printf("Nome:%s \n",emp.nome);
-			printf("Email:%s \n",emp.email);
-			printf("Data de admissao:%s \n",emp.dataAdmisao);
-			printf("Salario:%.2f \n",emp.salario);
+	else
+	{
+		while (fread(&emp, sizeof(EMPLOYEE), 1, arquivo) == 1)
+		{
+			printf("Numero Matricula:%d \n", emp.mat);
+			printf("Nome:%s \n", emp.nome);
+			printf("Email:%s \n", emp.email);
+			printf("Data de admissao:%s \n", emp.dataAdmisao);
+			printf("Salario:%.2f \n", emp.salario);
 			printf("-------------------------------\n\n");
 		}
-		
-
 	}
 	fclose(arquivo);
 	printf("Digite uma tecla para voltar ao menu:");
@@ -131,92 +140,121 @@ void listar(){
 	menu();
 }
 
-void excluir(){
+//função excluir: exclui um funcionário baseado na matrícula.
+void excluir()
+{
 
-	FILE* arquivo, *temporario;
+	FILE *arquivo, *temporario;
 	EMPLOYEE emp;
 
 	arquivo = fopen("arquivo.txt", "r+");
-	temporario= fopen("temp.txt","w");
+	temporario = fopen("temp.txt", "w");
 	int mat;
 	cabecalho();
-	if (arquivo == NULL){
+	if (arquivo == NULL)
+	{
 		printf("Problemas na abertura do arquivo\n");
 	}
 
-	else {
-		printf ("Digite a matricula q deseja exlcuir: ");
-		scanf("%d",&mat);
+	else
+	{
+		printf("Digite a matricula q deseja exlcuir: ");
+		scanf("%d", &mat);
 
-		while (fread(&emp, sizeof(EMPLOYEE),1, arquivo) == 1){
-			if (mat != emp.mat){
-				fwrite(&emp, sizeof(EMPLOYEE),1, temporario);
+		while (fread(&emp, sizeof(EMPLOYEE), 1, arquivo) == 1)
+		{
+			if (mat != emp.mat)
+			{
+				fwrite(&emp, sizeof(EMPLOYEE), 1, temporario);
 			}
 		}
-		
-
 	}
 	fclose(temporario);
 	fclose(arquivo);
 	remove("arquivo.txt");
-	rename("temp.txt","arquivo.txt");
+	rename("temp.txt", "arquivo.txt");
 	printf("Digite uma tecla para voltar ao menu:");
 	getche();
 	menu();
 }
 
-void alterar(){
-	FILE* arquivo, *temporario;
+//função alterar:
+void alterar()
+{
+	FILE *arquivo, *temporario;
 	EMPLOYEE emp;
 
 	arquivo = fopen("arquivo.txt", "r+");
-	temporario= fopen("temp.txt","w");
+	temporario = fopen("temp.txt", "w");
 	int mat;
 	cabecalho();
-	if (arquivo == NULL){
+	if (arquivo == NULL)
+	{
 		printf("Problemas na abertura do arquivo\n");
 	}
 
-	else {
-		printf ("Digite o numero de matricula que deseja Alterar: ");
-		scanf("%d",&mat);
+	else
+	{
+		printf("Digite o numero de matricula que deseja Alterar: ");
+		scanf("%d", &mat);
 
-		while (fread(&emp, sizeof(EMPLOYEE),1, arquivo) == 1){
-			if (mat == emp.mat){
+		while (fread(&emp, sizeof(EMPLOYEE), 1, arquivo) == 1)
+		{
+			
+			if (mat == emp.mat)
+			{
 
-			fflush(stdin);
-			printf("Digite o nome: ");
-			gets(emp.nome);
+				fflush(stdin);
+				printf("Digite o nome: ");
+				gets(emp.nome);
 
-			fflush(stdin);
-			printf("Digite o email: ");
-			gets(emp.email);
+				fflush(stdin);
+				printf("Digite o email: ");
+				gets(emp.email);
 
-			fflush(stdin);
-			printf("Digite a data de admissao: ");
-			gets(emp.dataAdmisao);
+				fflush(stdin);
+				printf("Digite a data de admissao: ");
+				gets(emp.dataAdmisao);
 
-			fflush(stdin);
-			printf("Digite o Salario: ");
-			scanf("%f",&emp.salario);
+				fflush(stdin);
+				printf("Digite o Salario: ");
+				scanf("%f", &emp.salario);
 
-			fwrite(&emp, sizeof(EMPLOYEE),1, temporario);
+				fwrite(&emp, sizeof(EMPLOYEE), 1, temporario);
+			} 
+			if (mat != emp.mat)
+			{
+				fwrite(&emp, sizeof(EMPLOYEE), 1, temporario);
 			}
 		}
-		
-
 	}
 	fclose(temporario);
 	fclose(arquivo);
 	remove("arquivo.txt");
-	rename("temp.txt","arquivo.txt");
+	rename("temp.txt", "arquivo.txt");
 	printf("\n Digite uma tecla para voltar ao menu:");
 	getche();
 	system("cls");
 	menu();
-
 }
 
+//função sobre nós: exibe a equipe de desenvolvimento do sistema.
+void sobre_nos()
+{
+
+	printf(" /$$      /$$                     /$$                       /$$                                         ',            \n| $$$    /$$$                    | $$                      |__/                                      .-`-,\\__            \n| $$$$  /$$$$  /$$$$$$  /$$$$$$$ | $$   /$$ /$$   /$$       /$$ /$$$$$$$   /$$$$$$$                    .\"`   `,            \n| $$ $$/$$ $$ /$$__  $$| $$__  $$| $$  /$$/| $$  | $$      | $$| $$__  $$ /$$_____/                  .'_.  ._  `;.        \n| $$  $$$| $$| $$  \\ $$| $$  \\ $$| $$$$$$/ | $$  | $$      | $$| $$  \\ $$| $$                    __ / `      `  `.\\ .--.    \n| $$\\  $ | $$| $$  | $$| $$  | $$| $$_  $$ | $$  | $$      | $$| $$  | $$| $$                   /--,| 0)   0)     )`_.-,)    \n| $$ \\/  | $$|  $$$$$$/| $$  | $$| $$ \\  $$|  $$$$$$$      | $$| $$  | $$|  $$$$$$$            |    ;.-----.__ _-');   /    \n|__/     |__/ \\______/ |__/  |__/|__/  \\__/ \\____  $$      |__/|__/  |__/ \\_______/             '--./         `.`/  `\"`        \n                                            /$$  | $$                                              :   '`      |.              \n                                           |  $$$$$$/                                              | \\     /  //             \n                                            \\______/                                                \\ '---'  /'           \n                                                                                                     `------'              \n");
+	printf("\n");
+	printf("Sistema desenvolvido por :\n");
+	printf("\n");
+	printf("João Vitor Santa Brigida Dantas     Matrícula: 2020016360\n");
+	printf("\n");
+	printf("Marcos Quadros Andrade              Matrícula: 2020015882\n");
+	printf("\n");
+	printf("Mateus dos Santos Ribeiro           Matrícula: 2020016389\n");
+	printf("\n");
+	printf("Thiago Tavares Gonzalez             Matrícula: 2020016146\n");
+	printf("\n");
+}
 
 //função menu
 void menu()
@@ -246,7 +284,7 @@ void menu()
 	case 2:
 		//função listar
 		listar();
-		
+
 		break;
 	case 3:
 		excluir();
@@ -300,24 +338,6 @@ void sair()
 	system("cls");
 	printf("Sistema encerrado.");
 	exit(0);
-}
-
-//função sobre nós 
-void sobre_nos()
-{
-
-	printf(" /$$      /$$                     /$$                       /$$                                         ',            \n| $$$    /$$$                    | $$                      |__/                                      .-`-,\\__            \n| $$$$  /$$$$  /$$$$$$  /$$$$$$$ | $$   /$$ /$$   /$$       /$$ /$$$$$$$   /$$$$$$$                    .\"`   `,            \n| $$ $$/$$ $$ /$$__  $$| $$__  $$| $$  /$$/| $$  | $$      | $$| $$__  $$ /$$_____/                  .'_.  ._  `;.        \n| $$  $$$| $$| $$  \\ $$| $$  \\ $$| $$$$$$/ | $$  | $$      | $$| $$  \\ $$| $$                    __ / `      `  `.\\ .--.    \n| $$\\  $ | $$| $$  | $$| $$  | $$| $$_  $$ | $$  | $$      | $$| $$  | $$| $$                   /--,| 0)   0)     )`_.-,)    \n| $$ \\/  | $$|  $$$$$$/| $$  | $$| $$ \\  $$|  $$$$$$$      | $$| $$  | $$|  $$$$$$$            |    ;.-----.__ _-');   /    \n|__/     |__/ \\______/ |__/  |__/|__/  \\__/ \\____  $$      |__/|__/  |__/ \\_______/             '--./         `.`/  `\"`        \n                                            /$$  | $$                                              :   '`      |.              \n                                           |  $$$$$$/                                              | \\     /  //             \n                                            \\______/                                                \\ '---'  /'           \n                                                                                                     `------'              \n");
-	printf("\n");
-	printf("Sistema desenvolvido por :\n");
-	printf("\n");
-	printf("João Vitor Santa Brigida Dantas     Matrícula: 2020016360\n");
-	printf("\n");
-	printf("Marcos Quadros Andrade              Matrícula: 2020015882\n");
-	printf("\n");
-	printf("Mateus dos Santos Ribeiro           Matrícula: 2020016389\n");
-	printf("\n");
-	printf("Thiago Tavares Gonzalez             Matrícula: 2020016146\n");
-	printf("\n");
 }
 
 int main()
