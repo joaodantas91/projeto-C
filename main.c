@@ -59,7 +59,7 @@ void cabecalho()
 //função cadastrar: cadastra e grava em um arquivo as informações do funcionário(matrícula, nome, email, data de admissao e salário)
 void cadastro()
 {
-	FILE *arquivo,*ler;
+	FILE *arquivo, *ler;
 	EMPLOYEE emp;
 	int mat;
 	arquivo = fopen("arquivo.txt", "ab");
@@ -81,8 +81,10 @@ void cadastro()
 			scanf("%d", &mat);
 
 			ler = fopen("arquivo.txt", "r");
-			while (fread(&emp, sizeof(EMPLOYEE), 1, ler) == 1){
-				if (mat == emp.mat){
+			while (fread(&emp, sizeof(EMPLOYEE), 1, ler) == 1)
+			{
+				if (mat == emp.mat)
+				{
 					printf("\nFuncionario ja cadastrado\n");
 					fclose(ler);
 					printf("\n");
@@ -90,7 +92,6 @@ void cadastro()
 					getch();
 					system("cls");
 					menu();
-
 				}
 			}
 			fclose(ler);
@@ -110,10 +111,10 @@ void cadastro()
 			fflush(stdin);
 			printf("Digite o Salario: ");
 			scanf("%f", &emp.salario);
-
 			fwrite(&emp, sizeof(EMPLOYEE), 1, arquivo);
+			printf("\nFuncionario cadastrado com sucesso!");
 			printf("\n ");
-			printf("Deseja continuar(s/n) ?");
+			printf("\nDeseja continuar(s/n) ?");
 
 		} while (getche() == 's');
 
@@ -183,6 +184,7 @@ void excluir()
 				fwrite(&emp, sizeof(EMPLOYEE), 1, temporario);
 			}
 		}
+		printf("\nFuncionario excluido com sucesso!\n");
 	}
 	fclose(temporario);
 	fclose(arquivo);
@@ -218,16 +220,16 @@ void alterar()
 
 		while (fread(&emp, sizeof(EMPLOYEE), 1, arquivo) == 1)
 		{
-			
+
 			if (mat == emp.mat)
 			{
 
-			printf("Matricula:%d \n", emp.mat);
-			printf("Nome:%s \n", emp.nome);
-			printf("Email:%s \n", emp.email);
-			printf("Data de admissao:%s \n", emp.dataAdmisao);
-			printf("Salario:%.2f \n", emp.salario);
-			printf("-------------------------------\n\n");
+				printf("Matricula:%d \n", emp.mat);
+				printf("Nome:%s \n", emp.nome);
+				printf("Email:%s \n", emp.email);
+				printf("Data de admissao:%s \n", emp.dataAdmisao);
+				printf("Salario:%.2f \n", emp.salario);
+				printf("-------------------------------\n\n");
 
 				fflush(stdin);
 				printf("Digite o nome: ");
@@ -246,7 +248,7 @@ void alterar()
 				scanf("%f", &emp.salario);
 
 				fwrite(&emp, sizeof(EMPLOYEE), 1, temporario);
-			} 
+			}
 			if (mat != emp.mat)
 			{
 				fwrite(&emp, sizeof(EMPLOYEE), 1, temporario);
