@@ -22,12 +22,200 @@ Sempre que o usuário escolher uma opção deve ter a possibilidade de voltar pa
 #include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>
+#include <conio.h>
 
+
+typedef struct emp EMPLOYEE;
+
+struct emp
+{
+int mat;
+char nome [30];
+char email [50];
+char dataAdmisao [10];
+float salario;
+};
+
+void alterar();
+void excluir();
+void listar();
+void cabecalho();
+void cadastro();
 void menu();
 void voltarMenu();
 void sair();
 void sobre_nos();
 
+void cabecalho(){
+	system("cls");
+	printf("-------------------------------\n");
+	printf("PROGRAMA RECURSOS HUMANOS");
+	printf("\n-------------------------------\n\n");
+
+}
+
+void cadastro(){
+	FILE* arquivo;
+	EMPLOYEE emp;
+
+	
+	arquivo = fopen("arquivo.txt", "ab");
+	
+	if (arquivo == NULL){
+		printf("Problemas na abertura do arquivo\n");
+	}
+	else {
+		
+		do {
+			
+			cabecalho();
+
+			fflush(stdin);
+			printf("Digite a matricula: ");
+			scanf("%d",&emp.mat);
+			
+			fflush(stdin);
+			printf("Digite o nome: ");
+			gets(emp.nome);
+
+			fflush(stdin);
+			printf("Digite o email: ");
+			gets(emp.email);
+
+			fflush(stdin);
+			printf("Digite a data de admissao: ");
+			gets(emp.dataAdmisao);
+
+			fflush(stdin);
+			printf("Digite o Salario: ");
+			scanf("%f",&emp.salario);
+
+			fwrite(&emp, sizeof(EMPLOYEE), 1, arquivo);
+			printf("\n ");
+			printf("Deseja continuar(s/n) ?");
+			
+		}while (getche() == 's');
+
+		fclose(arquivo);
+		system("cls");
+		menu();
+	}
+}
+
+void listar(){
+	FILE* arquivo;
+	EMPLOYEE emp;
+
+	arquivo = fopen("arquivo.txt", "rb");
+	cabecalho();
+	if (arquivo == NULL){
+		printf("Problemas na abertura do arquivo\n");
+	}
+
+	else {
+		while (fread(&emp, sizeof(EMPLOYEE),1, arquivo) == 1){
+			printf("Numero Matricula:%d \n",emp.mat);
+			printf("Nome:%s \n",emp.nome);
+			printf("Email:%s \n",emp.email);
+			printf("Data de admissao:%s \n",emp.dataAdmisao);
+			printf("Salario:%.2f \n",emp.salario);
+			printf("-------------------------------\n\n");
+		}
+		
+
+	}
+	fclose(arquivo);
+	printf("Digite uma tecla para voltar ao menu:");
+	getch();
+	system("cls");
+	menu();
+}
+
+void excluir(){
+
+	FILE* arquivo, *temporario;
+	EMPLOYEE emp;
+
+	arquivo = fopen("arquivo.txt", "r+");
+	temporario= fopen("temp.txt","w");
+	int mat;
+	cabecalho();
+	if (arquivo == NULL){
+		printf("Problemas na abertura do arquivo\n");
+	}
+
+	else {
+		printf ("Digite a matricula q deseja exlcuir: ");
+		scanf("%d",&mat);
+
+		while (fread(&emp, sizeof(EMPLOYEE),1, arquivo) == 1){
+			if (mat != emp.mat){
+				fwrite(&emp, sizeof(EMPLOYEE),1, temporario);
+			}
+		}
+		
+
+	}
+	fclose(temporario);
+	fclose(arquivo);
+	remove("arquivo.txt");
+	rename("temp.txt","arquivo.txt");
+	printf("Digite uma tecla para voltar ao menu:");
+	getche();
+	menu();
+}
+
+void alterar(){
+	FILE* arquivo, *temporario;
+	EMPLOYEE emp;
+
+	arquivo = fopen("arquivo.txt", "r+");
+	temporario= fopen("temp.txt","w");
+	int mat;
+	cabecalho();
+	if (arquivo == NULL){
+		printf("Problemas na abertura do arquivo\n");
+	}
+
+	else {
+		printf ("Digite o numero de matricula que deseja Alterar: ");
+		scanf("%d",&mat);
+
+		while (fread(&emp, sizeof(EMPLOYEE),1, arquivo) == 1){
+			if (mat == emp.mat){
+
+			fflush(stdin);
+			printf("Digite o nome: ");
+			gets(emp.nome);
+
+			fflush(stdin);
+			printf("Digite o email: ");
+			gets(emp.email);
+
+			fflush(stdin);
+			printf("Digite a data de admissao: ");
+			gets(emp.dataAdmisao);
+
+			fflush(stdin);
+			printf("Digite o Salario: ");
+			scanf("%f",&emp.salario);
+
+			fwrite(&emp, sizeof(EMPLOYEE),1, temporario);
+			}
+		}
+		
+
+	}
+	fclose(temporario);
+	fclose(arquivo);
+	remove("arquivo.txt");
+	rename("temp.txt","arquivo.txt");
+	printf("\n Digite uma tecla para voltar ao menu:");
+	getche();
+	system("cls");
+	menu();
+
+}
 
 
 //função menu
@@ -36,7 +224,7 @@ void menu()
 
 	int user_select = 0;
 
-
+	printf("\n");
 	printf("-------------MENU PRINCIPAL-------------\n");
 	printf("\n");
 	printf("1- Cadastrar\n");
@@ -53,21 +241,19 @@ void menu()
 	{
 	case 1:
 		//função cadastrar
-		system("cls");
-		printf("Teste cad.");
+		cadastro();
 		break;
 	case 2:
 		//função listar
-		system("cls");
-		printf("Teste list.");
+		listar();
+		
 		break;
 	case 3:
-		//função excluir
-		system("cls");
+		excluir();
 		break;
 	case 4:
 		//função alterar
-		system("cls");
+		alterar();
 		break;
 	case 5:
 		//função sobre_nós
