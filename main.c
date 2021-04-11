@@ -1,5 +1,18 @@
 /*
+----------------------------------------------------------------Leia-me-------------------------------------------------------------
+*Sistema feito no ano de 2021 por alunos da Universidade Federal Rural da Amazônia(UFRA): 
+
+João Vitor Santa Brigida Dantas     Matrícula: 2020016360
+
+Marcos Quadros Andrade              Matrí­cula: 2020015882
+
+Mateus dos Santos Ribeiro           Matrí­cula: 2020016389
+
+Thiago Tavares Gonzalez             Matrí­cula: 2020016146
+
 --------------------------------------------------------------Requisitos------------------------------------------------------------
+												#SISTEMA DE GERENCIAMENTO DE RECURSOS HUMANOS#
+
 
 *Menu onde o usuário pode escolher as opções de cadastrar, listar, excluir, alterar ou sair.
 
@@ -85,7 +98,7 @@ void cadastro()
 			{
 				if (mat == emp.mat)
 				{
-					printf("\nFuncionario ja cadastrado\n");
+					printf("\nNao é possivel cadastrar. Numero de matricula ja cadastrado.\n");
 					fclose(ler);
 					printf("\n");
 					printf("Digite uma tecla para voltar ao menu:");
@@ -197,7 +210,7 @@ void excluir()
 	menu();
 }
 
-//função alterar:
+//função alterar:altera as informações de um funcionario, exceto o numero de matrícula.
 void alterar()
 {
 	FILE *arquivo, *temporario;
@@ -255,6 +268,7 @@ void alterar()
 			}
 		}
 	}
+	printf("Dados alterados com sucesso!\n");
 	fclose(temporario);
 	fclose(arquivo);
 	remove("arquivo.txt");
@@ -311,7 +325,6 @@ void menu()
 	case 2:
 		//função listar
 		listar();
-
 		break;
 	case 3:
 		excluir();
@@ -366,7 +379,7 @@ void sair()
 	printf("Sistema encerrado.");
 	exit(0);
 }
-
+//função principal
 int main()
 {
 	setlocale(LC_ALL, "Portuguese");
